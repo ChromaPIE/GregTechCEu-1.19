@@ -45,7 +45,7 @@ public class MachineRecipeLoader {
         registerRecyclingRecipes(provider);
         registerStoneBricksRecipes(provider);
         registerNBTRemoval(provider);
-        ConvertHatchToHatch(provider);
+        registerHatchConversion(provider);
     }
 
     private static void registerBendingCompressingRecipes(Consumer<FinishedRecipe> provider) {
@@ -663,7 +663,7 @@ public class MachineRecipeLoader {
     private static void registerBlastFurnaceMetallurgyRecipes(Consumer<FinishedRecipe> provider) {
         createSulfurDioxideRecipe(provider, Stibnite, AntimonyTrioxide, 1500);
         createSulfurDioxideRecipe(provider, Sphalerite, Zincite, 1000);
-        createSulfurDioxideRecipe(provider, Pyrite, BandedIron, 2000);
+        createSulfurDioxideRecipe(provider, Pyrite, Hematite, 2000);
         createSulfurDioxideRecipe(provider, Pentlandite, Garnierite, 1000);
 
         BLAST_RECIPES.recipeBuilder("tetrahedrite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
@@ -976,7 +976,7 @@ public class MachineRecipeLoader {
         */
     }
 
-    private static void ConvertHatchToHatch(Consumer<FinishedRecipe> provider) {
+    private static void registerHatchConversion(Consumer<FinishedRecipe> provider) {
         for (int i = 0; i < FLUID_IMPORT_HATCH.length; i++) {
             if (FLUID_IMPORT_HATCH[i] != null && FLUID_EXPORT_HATCH[i] != null) {
 
@@ -1006,13 +1006,10 @@ public class MachineRecipeLoader {
         //    }
         //}
 
-        // todo steam multiblocks
-        //if (STEAM_EXPORT_BUS != null && STEAM_IMPORT_BUS != null) {
-        //    //Steam
-        //    ModHandler.addShapedRecipe("steam_bus_output_to_input_" + STEAM_EXPORT_BUS.getTier(), STEAM_EXPORT_BUS,
-        //            "d", "B", 'B', STEAM_IMPORT_BUS);
-        //    ModHandler.addShapedRecipe("steam_bus_input_to_output_" + STEAM_IMPORT_BUS.getTier(), STEAM_IMPORT_BUS,
-        //            "d", "B", 'B', STEAM_EXPORT_BUS);
-        //}
+        //Steam
+        VanillaRecipeHelper.addShapedRecipe(provider, "steam_bus_output_to_input", STEAM_EXPORT_BUS.asStack(),
+                "d", "B", 'B', STEAM_IMPORT_BUS.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, "steam_bus_input_to_output", STEAM_IMPORT_BUS.asStack(),
+                "d", "B", 'B', STEAM_EXPORT_BUS.asStack());
     }
 }
