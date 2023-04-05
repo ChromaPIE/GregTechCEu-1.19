@@ -23,4 +23,6 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: product
-          path: fabric/build/libs
+          path: |
+            fabric/build/libs/
+            forge/build/libs/
